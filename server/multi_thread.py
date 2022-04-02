@@ -8,11 +8,11 @@ import threading
 
 alldata = dict()
 alldata['1']=dict(nomor=1, nama="dean henderson", posisi="kiper Grup A")
-alldata['2']=dict(nomor=2, nama="luke shaw", posisi="bek kiri Grup A")
+alldata['2']=dict(nomor=2, nama="luke shawmandes", posisi="bek kiri Grup A")
 alldata['3']=dict(nomor=3, nama="aaron wan-bissaka", posisi="bek kanan Grup A")
 alldata['4']=dict(nomor=4, nama="victor lindelof", posisi="bek tengah kanan Grup A")
 alldata['5']=dict(nomor=5, nama="alexander hudson", posisi="kiper Grup B")
-alldata['6']=dict(nomor=6, nama="onga lunde", posisi="bek kiri Grup B")
+alldata['6']=dict(nomor=6, nama="onganda lunde", posisi="bek kiri Grup B")
 alldata['7']=dict(nomor=7, nama="basiw andra", posisi="bek kanan Grup B")
 alldata['8']=dict(nomor=8, nama="ludwig anchor", posisi="bek tengah kanan Grup B")
 
@@ -136,8 +136,8 @@ def handle_request(connection, client_address):
 
 if __name__=='__main__':
     try:
-        # ubah is_secure, jika mau pakai SSL = true dst.
-        run_server(('0.0.0.0', 12000),is_secure=True)
+        # ubah is_secure, jika mau pakai SSL maka is_true = true dst.
+        run_server(('0.0.0.0', 12000),is_secure=False)
     except KeyboardInterrupt:
         logging.warning("Control-C: Program berhenti")
         exit(0)
