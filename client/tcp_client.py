@@ -8,6 +8,7 @@ import os
 import threading
 import random
 import timeit, datetime
+from typing import Counter
 
 # alamat server --> mesin 1
 server_address = ('172.16.16.101', 12000)
@@ -84,36 +85,32 @@ def send_command(command_str,is_secure=False):
 
 def getdatapemain(nomor=0, is_secure=False):
     cmd = f"getdatapemain {nomor}\r\n\r\n"
-    h = send_command(cmd, is_secure)
-    return h
+    hasil = send_command(cmd, is_secure=is_secure)
+    return hasil
 
 
-def getrequest(amount_thread, amount, is_secure=False):
-    for request in range(amount):
-        # print("Thread ke-", amount_thread)
-        h = getdatapemain(random.randint(1, 8), is_secure)
-        if (h):
-            print('nama pemain: '+ h['nama'] + '\tnomor :\t',h['nomor'])
-        else:
-             print("kegagalan pada transfer data pemain nomor ", h['nomor'])
+def kirim_data(pemain, is_secure = True, counter=0, thread=0):
+    h = getdatapemain(pemain, is_secure=is_secure)
+    counter[thread] = h
+    if (h):
+        print('nama:',h['nama'],'\tnomor:',h['nomor'])
+    else:
+        print("kegagalan pada data transfer")
 
 
-if __name__=='__main__':
-    # banyaknya request data yang akan diajukan
-    request_num_data = 15
-    # ubah sesuaikan mau dengan berapa thread
-    num_thread = 20
-    # ubah sesuaikan mau ada SSL atau ngga
-    secure = False
-    # make array
+def proses_multithread(num_thread, secure = True):
+    # make array thread
     allThread = dict()
+
+    # num of respons
+    counter = [None]*num_thread
 
     #start timer
     startTime = timeit.default_timer()
 
     for thread in range (num_thread):
         # make multi thread
-        allThread[thread] = threading.Thread(target=getrequest, args=(thread, request_num_data, secure))
+        allThread[thread] = threading.Thread(target=kirim_data, args=(random.randint(1,8), secure, counter, thread))
         # start proses
         allThread[thread].start()
 
@@ -123,4 +120,29 @@ if __name__=='__main__':
     #stop timer
     stopTime = timeit.default_timer()
 
-    print('\nStatus SSL (secure):', secure,'\nJumlah Thread:', num_thread, '\nJumlah Request:', request_num_data,'\nJumlah Response:',request_num_data*num_thread,'\nTotal Waktu Eksekusi:', stopTime - startTime,'detik')
+    print('\nStatus SSL (secure):', secure,'\nJumlah Thread:', num_thread, '\nJumlah Request:', num_thread, '\nJumlah Respons:', len(counter), '\nTotal Waktu Eksekusi:', stopTime - startTime,'detik')
+
+
+if __name__=='__main__':
+     # Uncomment fungsi sesuai dengan kebutuhan
+
+    # Melihat versi
+    # print(lihatversi(True))
+
+    # No 1 - Client dengan multithread dan tidak secure
+    # proses_multithread(1, False)
+    # proses_multithread(5, False)
+    # proses_multithread(10, False)
+    # proses_multithread(20, False)
+
+    # No 2 - Client dan server dengan multi thread dan tidak secure
+    # proses_multithread(1, False)
+    # proses_multithread(5, False)
+    # proses_multithread(10, False)
+    # proses_multithread(20, False)
+
+    # No 3 - Client dan server dengan multi thread dan mode secure
+    # proses_multithread(1, True)
+    # proses_multithread(5, True)
+    # proses_multithread(10, True)
+    proses_multithread(20, True)
