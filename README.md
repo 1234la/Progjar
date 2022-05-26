@@ -1,2 +1,2 @@
-# Progjar
-ETS Pemrograman Jaringan D 2022
+# Pemrograman Jaringan
+Lathifa Itqonina Mardiyati - 05111940000176
