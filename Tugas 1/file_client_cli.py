@@ -2,7 +2,6 @@ import socket
 import json
 import base64
 import logging
-import os, os.path
 
 server_address=('0.0.0.0',7777)
 
@@ -36,6 +35,7 @@ def send_command(command_str=""):
         logging.warning("error during data receiving")
         return False
 
+
 def remote_list():
     command_str=f"LIST"
     hasil = send_command(command_str)
@@ -63,45 +63,9 @@ def remote_get(filename=""):
         print("Gagal")
         return False
 
-def remote_upload(filename=""):
-    if (os.path.exists(filename) == False):
-        print("File tidak ditemukan")
-        return False
-    if (filename != ''):
-        try:  
-            # proses membaca file yang akan diupload; rb - read binary
-            fp = open(f"{filename}",'rb') 
-            # proses encoding file untuk diupload
-            content = base64.b64encode(fp.read()).decode()
 
-            command_str = f"UPDATE {filename} {content}"
-            hasil = send_command(command_str)
-            print(hasil)
-
-            if(hasil['status'] == 'OK'):
-                print(f'Mengupdate {filename} berhasil !')
-                return True
-            else:
-                print(f'Mengupdate {filename} gagal !')
-                return False
-        except Exception as e:
-            print(e)
-            return False
-
-def remote_delete(filename=""):
-    command_str=f"DELETE {filename}"
-    hasil = send_command(command_str)
-    if (hasil['status']=='OK'):
-        print(f"Menghapus {filename} berhasil !")
-        return True
-    else:
-        print(f"Menghapus {filename} gagal!")
-        return False
-        
 if __name__=='__main__':
-    server_address=('172.16.16.101',6666)
+    server_address=('0.0.0.0',6666)
     remote_list()
-    remote_get('rfc2616.pdf')
-    # remote_update('daring.jpg')
-    # remote_delete('donalbebek2.jpg')
+    #remote_get('donalbebek.jpg')
 
