@@ -34,8 +34,32 @@ GET
 - BERHASIL:
   - status: OK
   - data_namafile : nama file yang diminta
-  - data_file : isi file yang diminta
+  - data_file : isi file yang diminta (dalam bentuk base64)
+- GAGAL:
+  - status: ERROR
+  - data: pesan kesalahan
+  
+POST
+* TUJUAN: untuk mengunggah file ke dalam server dengan menyebutkan nama file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+  - PARAMETER2 : hasil encode file menggunakan base64
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data : pesan upload file telah berhasil
 - GAGAL:
   - status: ERROR
   - data: pesan kesalahan
 
+DELETE
+* TUJUAN: untuk menghapus file dengan menyebutkan nama file dalam parameter
+* PARAMETER:
+  - PARAMETER1 : nama file
+* RESULT:
+- BERHASIL:
+  - status: OK
+  - data: pesan bahwa file telah terhapus
+- GAGAL:
+  - status: ERROR
+  - data: pesan kesalahan
